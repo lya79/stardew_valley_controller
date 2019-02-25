@@ -1,24 +1,36 @@
 import React from 'react';
 import ReactNipple from 'react-nipple';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 // import DebugView from 'react-nipple/lib/DebugView';
 
-export default class App extends React.Component {
+const styles = theme => ({
+    fab: {
+      position: 'fixed',
+      bottom:0+50,
+      left:0,
+    },
+});
+
+class GamePad extends React.Component {
     state = {
         data: {}
     };
 
     render() {
+        const { classes } = this.props;
+
         return (
-            <div>
-                <ReactNipple
+            <div className={classes.fab}>
+                <ReactNipple 
                     options={{ 
                       mode: 'static', 
                       position: { top: '50%', left: '50%' }, 
-                      color: 'red',
+                      color: 'blue',
                     }}
                     style={{
-                        outline: '1px dashed red',
-                        color: 'blue',
+                        // outline: '1px dashed red',
+                        // color: 'blue',
                         width: 150,
                         height: 150,
                         position: 'relative'
@@ -60,3 +72,11 @@ export default class App extends React.Component {
         // }
     };
 }
+
+GamePad.propTypes = {
+    classes: PropTypes.object.isRequired,
+  };
+  
+  const App = withStyles(styles)(GamePad);
+  
+  export default App;

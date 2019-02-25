@@ -1,62 +1,66 @@
-import React from 'react';
-import ReactNipple from 'react-nipple';
-// import DebugView from 'react-nipple/lib/DebugView';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Assignment';
 
-export default class App extends React.Component {
-    state = {
-        data: {}
+const styles = theme => ({
+  fab: {
+    position: 'fixed',
+    bottom:16+56+16+50,
+    right:16+(56+16)*1,
+  },
+});
+
+class SimpleModal extends React.Component {
+  constructor(props,context){
+    super(props,context);
+
+    this.state = {
     };
 
-    render() {
-        return (
-            <div>
-                <ReactNipple
-                    options={{ 
-                      mode: 'static', 
-                      position: { top: '50%', left: '50%' }, 
-                      color: 'red',
-                    }}
-                    style={{
-                        outline: '1px dashed red',
-                        color: 'blue',
-                        width: 150,
-                        height: 150,
-                        position: 'relative'
-                    }}
-                    onStart={this.handleEvent}
-                    onEnd={this.handleEvent}
-                    onMove={this.handleEvent}
-                    onDir={this.handleEvent}
-                    onPlain={this.handleEvent}
-                    onShown={this.handleEvent}
-                    onHidden={this.handleEvent}
-                    onPressure={this.handleEvent}
-                />
-                {/* <DebugView data={this.state.data} /> */}
-            </div>
-        );
-    }
-    handleEvent = (evt, data) => {
-        this.setState({ data });
+    this.handleTitle = this.handleTitle.bind(this);
+    this.handleContent = this.handleContent.bind(this);
+  }
 
-        // console.log(event, data)
+  handleTitle(event) {
+   
+  }
 
-        // if(data.pressure!=undefined){ // 是否按壓住方向 
-        //   console.log(data.pressure==undefined?"release":"press")
-        // }
+  handleContent(event) {
+   
+  }
 
-        // if(evt.type == "start"){ // 是否按壓住方向 
-        //   console.log("開始按壓")
-        // }else if(evt.type == "move"){
-        //   console.log("移動")
-        // }else if(evt.type == "end"){
-        //   console.log("結束按壓")
-        // }else{
-        //   console.log(evt.type)
-        // }
-        
-        // if(data.direction!=undefined){ // 方向
-        //   console.log(data.direction.x +", "+data.direction.y)
-        // }
-    };
+  handleOpen = () => {
+
+  };
+
+  handleClose = () => {
+
+  };
+
+  
+  handleRepleaceAll = () => {
+
+  };
+
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <div>
+        <Fab color="primary" aria-label="Add" className={classes.fab}>
+            <AddIcon onClick={this.handleOpen}/> 
+        </Fab>
+      </div>
+    );
+  }
 }
+
+SimpleModal.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+const App = withStyles(styles)(SimpleModal);
+
+export default App;

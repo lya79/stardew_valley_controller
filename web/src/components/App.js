@@ -1,5 +1,11 @@
 import React from 'react';
-import Game_pad from './game_pad/App';
+import Game_pad from './game_pad/App'; // 角色移動
+import Btn_backpack from './btn_backpack/App'; // 背包
+import Btn_jounmal from './btn_journal/App'; // 日誌
+import Btn_map from './btn_map/App'; // 地圖
+import Btn_item_row from './item_row/App'; // 道具欄
+import Btn_left_mouse from './btn_left_mouse/App'; //滑鼠 左
+import Btn_right_mouse from './btn_right_mouse/App'; //滑鼠 右
 
 
 // 上、下、左、右:人物移動
@@ -17,7 +23,20 @@ export default class App extends React.Component {
     };
     render() {
         return (
-            <Game_pad />
+            <div>
+                <Game_pad />
+
+                <Btn_map />
+                <Btn_jounmal />
+                <Btn_backpack />
+
+                <Btn_right_mouse />
+
+                <Btn_left_mouse />
+
+                
+                <Btn_item_row />
+            </div>
         );
     }
 }
