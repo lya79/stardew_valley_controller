@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Game_pad from './game_pad/App'; // 角色移動
 import Btn_backpack from './btn_backpack/App'; // 背包
 import Btn_jounmal from './btn_journal/App'; // 日誌
@@ -17,11 +19,13 @@ import Btn_right_mouse from './btn_right_mouse/App'; //滑鼠 右
 // M:地圖
 // 0、1、2、3、4、5、6、7、8、9、0、-、=:切換物品欄位
 
-export default class App extends React.Component {
-    state = {
-        data: {}
-    };
+const styles = theme => ({
+});
+
+class App extends React.Component {
     render() {
+        const { classes } = this.props;
+
         return (
             <div>
                 <Game_pad />
@@ -40,3 +44,5 @@ export default class App extends React.Component {
         );
     }
 }
+
+export default withStyles(styles)(App);
