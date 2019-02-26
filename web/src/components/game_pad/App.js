@@ -67,9 +67,13 @@ class GamePad extends React.Component {
         //   console.log(evt.type)
         // }
         
-        // if(data.direction!=undefined){ // 方向
-        //   console.log(data.direction.x +", "+data.direction.y)
-        // }
+        if(data.direction!=undefined){ // 方向
+            console.log(data.direction.x +", "+data.direction.y)
+        }else{
+            console.log("release")
+        }
+
+        
     };
 }
 

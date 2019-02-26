@@ -1,8 +1,6 @@
 package routers
 
 import (
-	"stardew_valley_controller/service/controllers"
-
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"
 )
@@ -14,6 +12,6 @@ func init() {
 		AllowHeaders:     []string{"Origin", "Authorization", "Access-Control-Allow-Origin", "Content-Type"},
 		ExposeHeaders:    []string{"Content-Length", "Access-Control-Allow-Origin"},
 		AllowCredentials: true}))
-	beego.Include(&controllers.Controllers{})
+	// beego.Include(&controllers.Controllers{})
 	beego.SetStaticPath("/", "public")
 }
