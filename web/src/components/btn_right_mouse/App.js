@@ -50,7 +50,7 @@ class SimpleModal extends React.Component {
     return (
       <div>
         <Fab color="primary" aria-label="Add" className={classes.fab}>
-            <Typography variant="h7">
+            <Typography color="inherit" variant="caption" gutterBottom>
               RIGHT MOUSE
             </Typography>
         </Fab>
