@@ -7,24 +7,37 @@ import (
 	"github.com/go-vgo/robotgo"
 )
 
+/*
+
+click "w"按鍵
+0:w
+
+長按 "w"按鍵
+1:w
+
+釋放 "w"按鍵
+2:w
+
+*/
+
 const KEY_UP = "w"
 const KEY_DOWN = "s"
 const KEY_LEFT = "a"
 const KEY_RIGHT = "d"
 
-type Pos struct {
+type Func struct {
 	stop            bool
-	press_key_up    bool
-	press_key_down  bool
-	press_key_left  bool
-	press_key_right bool
+	press_key_up    int
+	press_key_down  int
+	press_key_left  int
+	press_key_right int
 }
 
-func (this *Pos) Stop() {
+func (this *Func) Stop() {
 	this.stop = true
 }
 
-func (this *Pos) contain(action string) bool {
+func (this *Func) contain(action string) bool {
 	contain := false
 	contain = contain || action == KEY_UP
 	contain = contain || action == KEY_DOWN
@@ -33,7 +46,7 @@ func (this *Pos) contain(action string) bool {
 	return contain
 }
 
-func (this *Pos) Action(action string, press bool) bool {
+func (this *Func) Action(action string, press bool) bool {
 	if !this.contain(action) {
 		log.Println("fail action:", action, ", press:", press)
 		return false
@@ -54,24 +67,46 @@ func (this *Pos) Action(action string, press bool) bool {
 	return true
 }
 
-func (this *Pos) pressKeyUp(press bool) {
-	this.press_key_up = press
+func (this *Func) pressKeyUp(press bool) {
+	if press {
+		this.press_key_up = 1
+	} else {
+		this.press_key_up = 2
+	}
 }
 
-func (this *Pos) pressKeyDown(press bool) {
-	this.press_key_down = press
+func (this *Func) pressKeyDown(press bool) {
+	if press {
+		this.press_key_down = 1
+	} else {
+		this.press_key_down = 2
+	}
 }
 
-func (this *Pos) pressKeyLeft(press bool) {
-	this.press_key_left = press
+func (this *Func) pressKeyLeft(press bool) {
+	if press {
+		this.press_key_left = 1
+	} else {
+		this.press_key_left = 2
+	}
 }
 
-func (this *Pos) pressKeyRight(press bool) {
-	this.press_key_right = press
+func (this *Func) pressKeyRight(press bool) {
+	if press {
+		this.press_key_right = 1
+	} else {
+		this.press_key_right = 2
+	}
 }
 
-func (this *Pos) Init() {
+func (this *Func) Init() {
 	log.Println("init")
+
+	this.press_key_up = -1
+	this.press_key_down = -1
+	this.press_key_left = -1
+	this.press_key_right = -1
+
 	this.stop = false
 	go func() {
 		key := KEY_UP
@@ -79,10 +114,11 @@ func (this *Pos) Init() {
 			if this.stop {
 				break
 			}
-			if this.press_key_up {
+			if this.press_key_up == 1 {
 				robotgo.KeyToggle(key, "down")
-			} else {
+			} else if this.press_key_up == 2 {
 				robotgo.KeyToggle(key, "up")
+				this.press_key_up = -1
 			}
 			time.Sleep(16 * time.Millisecond)
 		}
@@ -93,10 +129,11 @@ func (this *Pos) Init() {
 			if this.stop {
 				break
 			}
-			if this.press_key_down {
+			if this.press_key_down == 1 {
 				robotgo.KeyToggle(key, "down")
-			} else {
+			} else if this.press_key_down == 2 {
 				robotgo.KeyToggle(key, "up")
+				this.press_key_down = -1
 			}
 			time.Sleep(16 * time.Millisecond)
 		}
@@ -107,10 +144,11 @@ func (this *Pos) Init() {
 			if this.stop {
 				break
 			}
-			if this.press_key_left {
+			if this.press_key_left == 1 {
 				robotgo.KeyToggle(key, "down")
-			} else {
+			} else if this.press_key_left == 2 {
 				robotgo.KeyToggle(key, "up")
+				this.press_key_left = -1
 			}
 			time.Sleep(16 * time.Millisecond)
 		}
@@ -121,10 +159,11 @@ func (this *Pos) Init() {
 			if this.stop {
 				break
 			}
-			if this.press_key_right {
+			if this.press_key_right == 1 {
 				robotgo.KeyToggle(key, "down")
-			} else {
+			} else if this.press_key_right == 2 {
 				robotgo.KeyToggle(key, "up")
+				this.press_key_right = -1
 			}
 			time.Sleep(16 * time.Millisecond)
 		}
