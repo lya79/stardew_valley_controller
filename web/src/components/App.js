@@ -8,6 +8,8 @@ import Btn_map from './btn_map/App'; // 地圖
 import Btn_item_row from './item_row/App'; // 道具欄
 import Btn_left_mouse from './btn_left_mouse/App'; //滑鼠 左
 import Btn_right_mouse from './btn_right_mouse/App'; //滑鼠 右
+import WebQRCode from './qrcode/App'; //滑鼠 右
+import Hidden from '@material-ui/core/Hidden';
 
 
 // 上、下、左、右:人物移動
@@ -49,8 +51,9 @@ class App extends React.Component {
 
     initWS = () => {
         console.log("initWS");
-        var url = window.location.hostname //  window.location.port
-        var socket = new WebSocket("ws://"+url+":3006/ws"); 
+        var host = window.location.hostname //  window.location.port
+        console.log("WebSocket:"+host);
+        var socket = new WebSocket("ws://"+host+":3006/ws"); 
         socket.onopen = function () {
             connet = true;
             console.log("Socket is open.");
@@ -72,13 +75,19 @@ class App extends React.Component {
         const { classes } = this.props;
         return (
             <div>
-                <Game_pad handleKeyEvent={this.handleKeyEvent}/>
-                <Btn_map />
-                <Btn_jounmal />
-                <Btn_backpack />
-                <Btn_right_mouse />
-                <Btn_left_mouse />
-                <Btn_item_row />
+                <Hidden mdUp> 
+                    <Game_pad handleKeyEvent={this.handleKeyEvent}/>
+                    <Btn_map /> 
+                    <Btn_jounmal />
+                    <Btn_backpack />
+                    <Btn_right_mouse />
+                    <Btn_left_mouse />
+                    <Btn_item_row />
+                </Hidden>
+
+                <Hidden smDown>
+                    <WebQRCode />
+                </Hidden>
             </div>
         );
     }
