@@ -19,6 +19,7 @@ type CmdService struct {
 func (this *CmdService) Init(port int) {
 	this.cmdList = make(chan []byte)
 	this.ctrlPos = ctrl_pos.Pos{}
+	this.ctrlPos.Init()
 
 	go this.exec()
 
@@ -35,6 +36,8 @@ func (this *CmdService) wsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (this *CmdService) connHandler(c *websocket.Conn) {
+	log.Println("new conn")
+
 	for {
 		messageType, payload, err := c.ReadMessage()
 		if err != nil {
@@ -106,8 +109,6 @@ func (this *CmdService) exec() {
 		}
 
 		action := cmdArray[1]
-
-		log.Println("action:", action, ", press:", event)
 
 		if (event == 1 || event == 2) && this.ctrlPos.Action(action, event == 1) {
 			continue

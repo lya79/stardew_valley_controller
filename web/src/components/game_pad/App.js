@@ -12,10 +12,12 @@ const styles = theme => ({
     },
 });
 
+var lastKey;
+
 class GamePad extends React.Component {
-    state = {
-        data: {}
-    };
+    // state = {
+    //     data: {}
+    // };
 
     render() {
         const { classes } = this.props;
@@ -49,31 +51,47 @@ class GamePad extends React.Component {
         );
     }
     handleEvent = (evt, data) => {
-        this.setState({ data });
+        // this.setState({ data });
 
-        // console.log(event, data)
+        if(data.direction!==undefined){ // 方向
+            // console.log(data.direction.angle)
+            
+            console.log("lastKey:"+lastKey)
 
-        // if(data.pressure!=undefined){ // 是否按壓住方向 
-        //   console.log(data.pressure==undefined?"release":"press")
-        // }
+            if(data.direction.angle === lastKey){
+                return;
+            }
 
-        // if(evt.type == "start"){ // 是否按壓住方向 
-        //   console.log("開始按壓")
-        // }else if(evt.type == "move"){
-        //   console.log("移動")
-        // }else if(evt.type == "end"){
-        //   console.log("結束按壓")
-        // }else{
-        //   console.log(evt.type)
-        // }
-        
-        if(data.direction!=undefined){ // 方向
-            console.log(data.direction.x +", "+data.direction.y)
+            if(lastKey==="up"){
+                this.props.handleKeyEvent("2:w")
+            }else if(lastKey==="down"){
+                this.props.handleKeyEvent("2:s")
+            }else if(lastKey==="left"){
+                this.props.handleKeyEvent("2:a")
+            }else if(lastKey==="right"){
+                this.props.handleKeyEvent("2:d")
+            }
+
+            lastKey = data.direction.angle;
+
+            if(lastKey==="up"){
+                this.props.handleKeyEvent("1:w")
+            }else if(lastKey==="down"){
+                this.props.handleKeyEvent("1:s")
+            }else if(lastKey==="left"){
+                this.props.handleKeyEvent("1:a")
+            }else if(lastKey==="right"){
+                this.props.handleKeyEvent("1:d")
+            }
         }else{
+            lastKey = undefined;
+            this.props.handleKeyEvent("2:w")
+            this.props.handleKeyEvent("2:s")
+            this.props.handleKeyEvent("2:a")
+            this.props.handleKeyEvent("2:d")
+
             console.log("release")
         }
-
-        
     };
 }
 

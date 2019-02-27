@@ -2,6 +2,7 @@ package controller
 
 import (
 	"log"
+	"time"
 
 	"github.com/go-vgo/robotgo"
 )
@@ -34,10 +35,21 @@ func (this *Pos) contain(action string) bool {
 
 func (this *Pos) Action(action string, press bool) bool {
 	if !this.contain(action) {
+		log.Println("fail action:", action, ", press:", press)
 		return false
 	}
 
-	// TODO
+	log.Println("action:", action, ", press:", press)
+
+	if action == KEY_UP {
+		this.pressKeyUp(press)
+	} else if action == KEY_DOWN {
+		this.pressKeyDown(press)
+	} else if action == KEY_LEFT {
+		this.pressKeyLeft(press)
+	} else if action == KEY_RIGHT {
+		this.pressKeyRight(press)
+	}
 
 	return true
 }
@@ -70,6 +82,7 @@ func (this *Pos) Init() {
 			if this.press_key_up {
 				robotgo.KeyToggle(key, "down")
 			}
+			time.Sleep(16 * time.Millisecond)
 		}
 	}()
 	go func() {
@@ -81,6 +94,7 @@ func (this *Pos) Init() {
 			if this.press_key_down {
 				robotgo.KeyToggle(key, "down")
 			}
+			time.Sleep(16 * time.Millisecond)
 		}
 	}()
 	go func() {
@@ -92,6 +106,7 @@ func (this *Pos) Init() {
 			if this.press_key_left {
 				robotgo.KeyToggle(key, "down")
 			}
+			time.Sleep(16 * time.Millisecond)
 		}
 	}()
 	go func() {
@@ -103,6 +118,7 @@ func (this *Pos) Init() {
 			if this.press_key_right {
 				robotgo.KeyToggle(key, "down")
 			}
+			time.Sleep(16 * time.Millisecond)
 		}
 	}()
 }

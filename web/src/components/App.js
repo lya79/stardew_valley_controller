@@ -22,47 +22,48 @@ import Btn_right_mouse from './btn_right_mouse/App'; //滑鼠 右
 const styles = theme => ({
 });
 
-var ws;
+var ws; // TODO 改用 state儲存
+var connet;// TODO 改用 state儲存
 
 class App extends React.Component {
     constructor() {
         super();
+
+        connet = false;
+
         if (window.WebSocket === undefined) {
             alert("Your browser does not support WebSockets."); // TODO 增加 Dialog顯示訊息
         } else {
-            console.log("???ws:"+ws);
-            console.log("???ws === 'undefined':"+ws === "undefined"); 
-            console.log("???ws == 'undefined':"+ws == "undefined"); 
-            console.log("???ws === undefined:"+ws === undefined); 
-            console.log("???ws == undefined:"+ws == undefined);
-            console.log("???ws === null:"+ws === null);
-            console.log("???ws == null:"+ws == null);
             ws = this.initWS();
         }
-    
     }    
 
     handleKeyEvent = (data) => {
-        console.log("send event:"+data);
-        // socket.send(data); 
+        console.log("send event:"+data);   
+        if(!connet){
+            console.log("not connect");
+            return
+        }
+        ws.send(data); 
     };
 
     initWS = () => {
-        var socket = new WebSocket("ws://localhost:3006/ws"); 
+        console.log("initWS");
+        var url = window.location.hostname //  window.location.port
+        var socket = new WebSocket("ws://"+url+":3006/ws"); 
         socket.onopen = function () {
+            connet = true;
             console.log("Socket is open.");
-            socket.send("test send 1 "); 
-            socket.send("test send 2 ");
-            socket.send("test send 3 ");  
         };
         socket.onmessage = function (e) {
             console.log("Received data.", e.data);
         }
         socket.onclose = function () {
+            connet = false;
             console.log("Socket closed.");
             setTimeout(function () {
                 this.initWS()
-            }, 5000);
+            }, 3000);
         }
         return socket;
     }
@@ -72,16 +73,11 @@ class App extends React.Component {
         return (
             <div>
                 <Game_pad handleKeyEvent={this.handleKeyEvent}/>
-
                 <Btn_map />
                 <Btn_jounmal />
                 <Btn_backpack />
-
                 <Btn_right_mouse />
-
                 <Btn_left_mouse />
-
-                
                 <Btn_item_row />
             </div>
         );
