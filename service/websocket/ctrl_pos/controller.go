@@ -81,6 +81,8 @@ func (this *Pos) Init() {
 			}
 			if this.press_key_up {
 				robotgo.KeyToggle(key, "down")
+			} else {
+				robotgo.KeyToggle(key, "up")
 			}
 			time.Sleep(16 * time.Millisecond)
 		}
@@ -93,6 +95,8 @@ func (this *Pos) Init() {
 			}
 			if this.press_key_down {
 				robotgo.KeyToggle(key, "down")
+			} else {
+				robotgo.KeyToggle(key, "up")
 			}
 			time.Sleep(16 * time.Millisecond)
 		}
@@ -105,6 +109,8 @@ func (this *Pos) Init() {
 			}
 			if this.press_key_left {
 				robotgo.KeyToggle(key, "down")
+			} else {
+				robotgo.KeyToggle(key, "up")
 			}
 			time.Sleep(16 * time.Millisecond)
 		}
@@ -117,6 +123,8 @@ func (this *Pos) Init() {
 			}
 			if this.press_key_right {
 				robotgo.KeyToggle(key, "down")
+			} else {
+				robotgo.KeyToggle(key, "up")
 			}
 			time.Sleep(16 * time.Millisecond)
 		}
