@@ -14,7 +14,7 @@
 
 # 預覽
 
-![image](https://github.com/lya79/todo_app/blob/master/01.png)
+![image](https://github.com/lya79/stardew_valley_controller/blob/master/info.png)
 
 # 安裝
 
