@@ -5,6 +5,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Explore';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import QueryIP from '../HttpMethods/QueryIP';
 
 const styles = theme => ({
   fab: {
@@ -19,13 +20,47 @@ const styles = theme => ({
 });
 
 class SimpleModal extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      webURL: '',
+    };
+  }
+
+  componentWillMount() {
+    this.handleQueryIP()
+  }
+
+  handleQueryIP = () => { 
+    console.log('start QueryIP');
+    // fetch http://localhost:8080/query
+    // 掛載前要取得, 因為要在 QR Code產生前取得 ip
+
+    let self = this;
+    var callbackSignIn = function(ip){ 
+      if(undefined === ip || ip.length <= 0){
+        console.log('fail QueryIP');
+        self.setState({
+          webURL: '',
+        });
+        return;
+      }
+
+      console.log('success QueryIP:'+ip);
+      var url = "http://"+ip+":8080/"
+      self.setState({
+        webURL: url,
+      });
+    }
+    QueryIP(callbackSignIn);
+  };
+
   render() {
     const { classes } = this.props;
     var React = require('react');
     var QRCode = require('qrcode.react');
-    var host = window.location.hostname
-    var url = "http://"+host+":3000/"
-    console.log("web url:"+url); // TODO 需要取得服務器 IP
+    console.log("web url:"+this.state.webURL); // TODO 需要取得服務器 IP
     return (
       <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}>
         <Grid>
@@ -36,11 +71,11 @@ class SimpleModal extends React.Component {
           </Grid>
           <Grid className={classes.title}>
             <Typography variant="h5" gutterBottom>
-              {window.location.href}
+              {this.state.webURL}
             </Typography>
           </Grid>
           <Grid className={classes.title}>
-            <QRCode value={url}/>
+            <QRCode value={this.state.webURL}/>
           </Grid>
         </Grid>
       </div>

@@ -22,19 +22,19 @@ TODO
 
 備註:
 	長按功能只提供給 "c"按鍵
-
+mmm112
 */
 
-const KEY_NUM_1 = "num1"
-const KEY_NUM_2 = "num2"
-const KEY_NUM_3 = "num3"
-const KEY_NUM_4 = "num4"
-const KEY_NUM_5 = "num5"
-const KEY_NUM_6 = "num6"
-const KEY_NUM_7 = "num7"
-const KEY_NUM_8 = "num8"
-const KEY_NUM_9 = "num9"
-const KEY_NUM_0 = "num0"
+const KEY_NUM_1 = "1"
+const KEY_NUM_2 = "2"
+const KEY_NUM_3 = "3"
+const KEY_NUM_4 = "4"
+const KEY_NUM_5 = "5"
+const KEY_NUM_6 = "6"
+const KEY_NUM_7 = "7"
+const KEY_NUM_8 = "8"
+const KEY_NUM_9 = "9"
+const KEY_NUM_0 = "0"
 const KEY_NUM_DASH = "-"
 const KEY_NUM_EQUAL = "="
 const KEY_E = "e"
@@ -75,6 +75,8 @@ func (this *Func) contain(action string) bool {
 }
 
 func (this *Func) Action(action string, event int) bool {
+	log.Println("check item:")
+
 	if !this.contain(action) {
 		log.Println("fail action:", action)
 		return false
@@ -85,9 +87,9 @@ func (this *Func) Action(action string, event int) bool {
 	if action == KEY_C {
 		this.pressKeyC(event)
 	} else {
-		go func(action string) {
-			robotgo.KeyTap(action)
-		}(action)
+		log.Println("ccc action:", action)
+		robotgo.KeyToggle(action, "down")
+		robotgo.KeyToggle(action, "up")
 	}
 
 	return true
@@ -118,7 +120,7 @@ func (this *Func) Init() {
 				robotgo.KeyTap(key)
 				this.press_key_c = -1
 			}
-			time.Sleep(16 * time.Millisecond)
+			time.Sleep(10 * time.Millisecond)
 		}
 	}()
 }

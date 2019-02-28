@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Explore';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   fab: {
     position: 'fixed',
-    bottom:16+56+16+50,
+    bottom:16+56+16,
     right:16+(56+16)*2,
   },
 });
@@ -15,42 +16,20 @@ const styles = theme => ({
 class SimpleModal extends React.Component {
   constructor(props,context){
     super(props,context);
-
-    this.state = {
-    };
-
-    this.handleTitle = this.handleTitle.bind(this);
-    this.handleContent = this.handleContent.bind(this);
   }
 
-  handleTitle(event) {
-   
+  handleEvent = (evt, data) => { 
+    this.props.handleKeyEvent("0:m")
   }
-
-  handleContent(event) {
-   
-  }
-
-  handleOpen = () => {
-
-  };
-
-  handleClose = () => {
-
-  };
-
-  
-  handleRepleaceAll = () => {
-
-  };
-
   render() {
     const { classes } = this.props;
 
     return (
       <div>
-        <Fab color="primary" aria-label="Add" className={classes.fab}>
-            <AddIcon onClick={this.handleOpen}/> 
+        <Fab onClick={this.handleEvent} color="primary" aria-label="Add" className={classes.fab}>
+            <Typography color="inherit" variant="caption" gutterBottom>
+              M
+            </Typography>
         </Fab>
       </div>
     );

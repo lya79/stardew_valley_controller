@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Game_pad from './game_pad/App'; // 角色移動
+import Game_pad_pos from './game_pad_pos/App'; // 角色移動
+import Game_pad_mouse from './game_pad_mouse/App'; // 角色移動
 import Btn_backpack from './btn_backpack/App'; // 背包
 import Btn_jounmal from './btn_journal/App'; // 日誌
 import Btn_map from './btn_map/App'; // 地圖
@@ -10,6 +11,7 @@ import Btn_left_mouse from './btn_left_mouse/App'; //滑鼠 左
 import Btn_right_mouse from './btn_right_mouse/App'; //滑鼠 右
 import WebQRCode from './qrcode/App'; //滑鼠 右
 import Hidden from '@material-ui/core/Hidden';
+import QueryIP from './HttpMethods/QueryIP';
 
 
 // 上、下、左、右:人物移動
@@ -33,12 +35,85 @@ class App extends React.Component {
 
         connet = false;
 
-        if (window.WebSocket === undefined) {
-            alert("Your browser does not support WebSockets."); // TODO 增加 Dialog顯示訊息
-        } else {
-            ws = this.initWS();
-        }
+        // this.state = {
+        //     addr: '',
+        // };
     }    
+
+    componentWillMount() {
+        this.handleQueryIP()
+      }
+    
+    handleQueryIP = () => { 
+        console.log('start QueryIP');
+        // fetch http://localhost:8080/query
+        // 掛載前要取得, 因為要在 QR Code產生前取得 ip
+    
+        let self = this;
+        var callbackSignIn = function(ip){ 
+            if(undefined === ip || ip.length <= 0){
+                console.log('fail QueryIP');
+                // self.setState({
+                //     addr: '',
+                // });
+                return;
+            }
+    
+            console.log('success QueryIP:'+ip);
+            // self.setState({
+            //     addr: ip,
+            // });
+
+            if (window.WebSocket === undefined) {
+                alert("Your browser does not support WebSockets."); // TODO 增加 Dialog顯示訊息
+            } else {
+                // ws = self.initWS();
+                console.log("initWS");
+                var host = ip; // '192.168.0.14';// ip
+                console.log("WebSocket:"+host);
+                var socket = new WebSocket("ws://"+host+":3006/ws"); 
+                socket.onopen = function () {
+                    connet = true;
+                    console.log("Socket is open.");
+                };
+                socket.onmessage = function (e) {
+                    console.log("Received data.", e.data);
+                }
+                socket.onclose = function () {
+                    connet = false;
+                    console.log("Socket closed.");
+                    setTimeout(function () {
+                        self.handleQueryIP()
+                    }, 3000);
+                }
+
+                ws = socket
+            }
+        }
+        QueryIP(callbackSignIn);
+    };
+
+    // initWS = () => {
+    //     console.log("initWS");
+    //     var host = window.location.hostname
+    //     console.log("WebSocket:"+host);
+    //     var socket = new WebSocket("ws://"+host+":3006/ws"); 
+    //     socket.onopen = function () {
+    //         connet = true;
+    //         console.log("Socket is open.");
+    //     };
+    //     socket.onmessage = function (e) {
+    //         console.log("Received data.", e.data);
+    //     }
+    //     socket.onclose = function () {
+    //         connet = false;
+    //         console.log("Socket closed.");
+    //         setTimeout(function () {
+    //             this.initWS()
+    //         }, 3000);
+    //     }
+    //     return socket;
+    // }
 
     handleKeyEvent = (data) => {
         console.log("send event:"+data);   
@@ -49,40 +124,19 @@ class App extends React.Component {
         ws.send(data); 
     };
 
-    initWS = () => {
-        console.log("initWS");
-        var host = window.location.hostname //  window.location.port
-        console.log("WebSocket:"+host);
-        var socket = new WebSocket("ws://"+host+":3006/ws"); 
-        socket.onopen = function () {
-            connet = true;
-            console.log("Socket is open.");
-        };
-        socket.onmessage = function (e) {
-            console.log("Received data.", e.data);
-        }
-        socket.onclose = function () {
-            connet = false;
-            console.log("Socket closed.");
-            setTimeout(function () {
-                this.initWS()
-            }, 3000);
-        }
-        return socket;
-    }
-
     render() {
         const { classes } = this.props;
         return (
             <div>
                 <Hidden mdUp> 
-                    <Game_pad handleKeyEvent={this.handleKeyEvent}/>
-                    <Btn_map /> 
-                    <Btn_jounmal />
-                    <Btn_backpack />
-                    <Btn_right_mouse />
-                    <Btn_left_mouse />
-                    <Btn_item_row />
+                    <Game_pad_pos handleKeyEvent={this.handleKeyEvent}/>
+                    <Game_pad_mouse handleKeyEvent={this.handleKeyEvent}/>
+                    <Btn_map handleKeyEvent={this.handleKeyEvent}/> 
+                    <Btn_jounmal handleKeyEvent={this.handleKeyEvent}/>
+                    <Btn_backpack handleKeyEvent={this.handleKeyEvent}/>
+                    <Btn_right_mouse handleKeyEvent={this.handleKeyEvent}/>
+                    <Btn_left_mouse handleKeyEvent={this.handleKeyEvent}/>
+                    <Btn_item_row handleKeyEvent={this.handleKeyEvent}/>
                 </Hidden>
 
                 <Hidden smDown>

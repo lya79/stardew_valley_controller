@@ -29,16 +29,14 @@ func (this *Func) contain(action string) bool {
 }
 
 func (this *Func) Action(action string) bool {
+	log.Println("check audio:")
+
 	if !this.contain(action) {
 		log.Println("fail action:", action)
 		return false
 	}
 
 	log.Println("action:", action)
-
-	go func(action string) {
-		robotgo.KeyTap(action)
-	}(action)
-
+	robotgo.KeyTap(action)
 	return true
 }

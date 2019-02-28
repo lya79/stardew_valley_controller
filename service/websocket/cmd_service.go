@@ -10,16 +10,18 @@ import (
 
 	ctrl_audio "stardew_valley_controller/service/websocket/ctrl_audio"
 	ctrl_item "stardew_valley_controller/service/websocket/ctrl_item"
-	ctrl_mouse "stardew_valley_controller/service/websocket/ctrl_mouse"
+	ctrl_mouse_event "stardew_valley_controller/service/websocket/ctrl_mouse_event"
+	ctrl_mouse_pos "stardew_valley_controller/service/websocket/ctrl_mouse_pos"
 	ctrl_pos "stardew_valley_controller/service/websocket/ctrl_pos"
 )
 
 type CmdService struct {
-	cmdList   chan []byte
-	ctrlPos   ctrl_pos.Func
-	ctrlItem  ctrl_item.Func
-	ctrlMouse ctrl_mouse.Func
-	ctrlAudio ctrl_audio.Func
+	cmdList        chan []byte
+	ctrlPos        ctrl_pos.Func
+	ctrlItem       ctrl_item.Func
+	ctrlMouseEvent ctrl_mouse_event.Func
+	ctrlMousePos   ctrl_mouse_pos.Func
+	ctrlAudio      ctrl_audio.Func
 }
 
 func (this *CmdService) Init(port int) {
@@ -27,12 +29,14 @@ func (this *CmdService) Init(port int) {
 
 	this.ctrlPos = ctrl_pos.Func{}
 	this.ctrlItem = ctrl_item.Func{}
-	this.ctrlMouse = ctrl_mouse.Func{}
+	this.ctrlMouseEvent = ctrl_mouse_event.Func{}
+	this.ctrlMousePos = ctrl_mouse_pos.Func{}
 	this.ctrlAudio = ctrl_audio.Func{}
 
 	this.ctrlPos.Init()
 	this.ctrlItem.Init()
-	this.ctrlMouse.Init()
+	this.ctrlMouseEvent.Init()
+	this.ctrlMousePos.Init()
 
 	go this.exec()
 
@@ -104,7 +108,8 @@ func (this *CmdService) exec() {
 
 		skip := false
 		skip = skip || (event == 1 || event == 2) && this.ctrlPos.Action(action, event == 1)
-		skip = skip || this.ctrlMouse.Action(action, event)
+		skip = skip || this.ctrlMouseEvent.Action(action, event)
+		skip = skip || this.ctrlMousePos.Action(action, event)
 		skip = skip || this.ctrlItem.Action(action, event)
 		skip = skip || event == 0 && this.ctrlAudio.Action(action)
 	}

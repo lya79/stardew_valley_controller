@@ -47,6 +47,8 @@ func (this *Func) contain(action string) bool {
 }
 
 func (this *Func) Action(action string, press bool) bool {
+	log.Println("check pos:")
+
 	if !this.contain(action) {
 		log.Println("fail action:", action, ", press:", press)
 		return false
@@ -120,7 +122,7 @@ func (this *Func) Init() {
 				robotgo.KeyToggle(key, "up")
 				this.press_key_up = -1
 			}
-			time.Sleep(16 * time.Millisecond)
+			time.Sleep(10 * time.Millisecond)
 		}
 	}()
 	go func() {
@@ -135,7 +137,7 @@ func (this *Func) Init() {
 				robotgo.KeyToggle(key, "up")
 				this.press_key_down = -1
 			}
-			time.Sleep(16 * time.Millisecond)
+			time.Sleep(10 * time.Millisecond)
 		}
 	}()
 	go func() {
@@ -150,7 +152,7 @@ func (this *Func) Init() {
 				robotgo.KeyToggle(key, "up")
 				this.press_key_left = -1
 			}
-			time.Sleep(16 * time.Millisecond)
+			time.Sleep(10 * time.Millisecond)
 		}
 	}()
 	go func() {
@@ -165,7 +167,7 @@ func (this *Func) Init() {
 				robotgo.KeyToggle(key, "up")
 				this.press_key_right = -1
 			}
-			time.Sleep(16 * time.Millisecond)
+			time.Sleep(10 * time.Millisecond)
 		}
 	}()
 }
