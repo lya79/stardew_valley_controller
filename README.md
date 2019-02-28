@@ -12,6 +12,9 @@
 
 此專案提供星露谷(Stardew Valley)遊戲的遊戲手把，將程式部屬在 windows系統下，即可利用手機藉由瀏覽器作為遊戲手把玩遊戲。
 
+# 下載執行檔案(release)
+https://github.com/lya79/stardew_valley_controller/blob/master/release_stardew_valley_controller.7z
+
 # 預覽
 
 ![image](https://github.com/lya79/stardew_valley_controller/blob/master/info.png)
