@@ -18,7 +18,9 @@ release執行檔啟動後，開啟瀏覽器輸入網址 localhost:8080即可。
 https://github.com/lya79/stardew_valley_controller/blob/master/release_stardew_valley_controller.7z
 
 # 預覽
+電腦瀏覽器畫面
 ![image](https://github.com/lya79/stardew_valley_controller/blob/master/pc.png)
+手機瀏覽器畫面
 ![image](https://github.com/lya79/stardew_valley_controller/blob/master/info.png)
 
 # 安裝
